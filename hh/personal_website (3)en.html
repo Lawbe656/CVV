@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>personal_website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        /* 導航列樣式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #fff;
+            border-bottom: 2px solid #000;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-btn {
+            background: none;
+            border: 2px solid #000;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            color: #000;
+        }
+
+        .nav-btn:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .nav-btn.active {
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* 漢堡圖示樣式 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #000;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* 漢堡圖示動畫效果 */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* 主要內容區域 */
+        .main-content {
+            margin-top: 100px;
+            min-height: calc(100vh - 100px);
+        }
+
+        .page {
+            display: none;
+            min-height: calc(100vh - 100px);
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* 首頁樣式 */
+        .home-page {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 100px);
+        }
+
+        .section {
+            flex: 1;
+            padding: 3rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #ddd;
+            min-height: 200px;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-content {
+            max-width: 900px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .project-section{
+            text-align: left;
+        }
+
+        .section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #000;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        /* 關於我的圖片區域 */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border: 3px solid #000;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+        }
+
+        /* 專案卡片網格 - 新增 */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            border: 2px solid #000;
+            background-color: #fafafa;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #000;
+            padding-bottom: 0.3rem;
+        }
+
+        .project-role {
+            color: #666;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-brief {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            color: #333;
+        }
+
+        .view-more-btn {
+            display: inline-block;
+            background-color: #000;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid #000;
+        }
+
+        .view-more-btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* 技能標籤和圖標 */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .skill-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid #000;
+            padding: 1.5rem 1rem;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .skill-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #333;
+        }
+
+        .skill-item:hover .skill-icon {
+            border-color: #fff;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .skill-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* 個人資料連結 */
+        .contact-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            color: #000;
+            text-decoration: none;
+            border: 2px solid #000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .contact-link:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .contact-info {
+            border: 2px solid #000;
+            padding: 1rem 2rem;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .linkedin-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .linkedin-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .lang-box {
+            border: 1px solid var(--black-400-ececec);
+            border-radius: 8px;
+            flex: 1;
+            order: 0;
+            align-self: auto;
+            margin-right: 16px;
+            padding: 16px;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                border-bottom: 2px solid #000;
+                flex-direction: column;
+                padding: 1rem 0;
+                transform: translateX(-100%);
+                transition: all 0.3s ease;
+                gap: 1rem;
+            }
+            
+            .nav-menu.active {
+                transform: translateX(0);
+            }
+            
+            .nav-container {
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 1rem;
+            }
+
+            .nav-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+                text-align: center;
+                margin: 0 1rem;
+            }
+
+            .main-content {
+                margin-top: 100px;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+                min-height: auto;
+            }
+
+            .section h2 {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+
+            .section p {
+                font-size: 1rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .about-text {
+                text-align: center;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .project-image {
+                height: 150px;
+            }
+            
+            .project-info {
+                padding: 1rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 1rem;
+            }
+
+            .skill-item {
+                padding: 1rem 0.5rem;
+            }
+
+            .skill-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 0.7rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .contact-link {
+                width: 200px;
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                margin-top: 100px;
+            }
+
+            .section {
+                padding: 1.5rem 0.8rem;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .nav-menu {
+                top: 68px;
+            }
+
+            .main-content {
+                margin-top: 68px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu">
+                <button class="nav-btn active" data-page="home">About Me</button>
+                <a href="experience_page_en.html" class="nav-btn">Work Experience</a>
+                <a href="https://drive.google.com/file/d/1jwID5Ysly9Y7KOXQ-ui-8nFB9Y5faexQ/view?usp=sharing" class="nav-btn" target="_blank">Download Resume</a>
+                <a href="index.html" class="nav-btn">中</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div id="home" class="page active home-page">
+            <!-- About Me -->
+            <section class="section">
+                <div class="section-content">
+                    <h2>About Me</h2>
+                    <div class="about-content">
+                        <div class="profile-image">
+                            <img src="76900.jpg" alt="Profile Image" class="profile-image">
+                        </div>
+                        <div class="about-text">
+                            <p>Hello! I'm a passionate project manager with one year of hands-on experience in the tech industry. I specialize in transforming complex business needs into clear IT system solutions, participating throughout the entire development process from requirement analysis to launch.</p>
+                            <p>I'm an enthusiastic learner in data analysis, eager to understand the underlying data logic of systems. My goal is to become a data-driven system analyst who validates and improves systems with precision. I believe my cross-functional communication, detail-oriented thinking, and problem-solving mindset bring value to any team I join.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Project Experience -->
+            <section class="section">
+                <div class="section-content">
+                    <h2>Project Experience</h2>
+                    <div class="about-text">
+                        <p>As a project manager in the tech industry, I've taken part in the planning, design, development collaboration, testing, and delivery of various key information system projects. I excel at translating business needs into clear system functions and act as a bridge between business and technical teams to ensure projects are delivered on time and with high quality. These experiences have sharpened my system analysis, problem-solving, and data quality awareness.</p>
+                    </div>
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="Frame 107.png" alt="project1"/>
+                            </div>
+                            <div class="project-info">
+                                <h3>Investment Database Development</h3>
+                                <p class="project-role">Project Management / UIUX Design / System Analysis / System Testing & Verification</p>
+                                <p class="project-brief">Designed front-end and back-end, conducted requirement analysis and functional design, and planned the performance management module and multi-level user access.</p>
+                                <a href="experience_page_en.html#project1" class="view-more-btn" target="_blank">View More</a>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="Frame 6 (1).png" alt="project2" />
+                            </div>
+                            <div class="project-info">
+                                <h3>ERP System Implementation</h3>
+                                <p class="project-role">Project Management / System Analysis / System Testing & Verification</p>
+                                <p class="project-brief">Planned core inventory and payment modules, conducted system testing and data flow validation to ensure smooth launch.</p>
+                                <a href="experience_page_en.html#project2" class="view-more-btn" target="_blank">View More</a>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image">
+                                <img src="daily 1.png" alt="project3" />
+                            </div>
+                            <div class="project-info">
+                                <h3>Competition Information System</h3>
+                                <p class="project-role">Project Management / System Testing & Verification</p>
+                                <p class="project-brief">Defined and verified features for registration management, scoring system, and certificate generation.</p>
+                                <a href="experience_page_en.html#project3" class="view-more-btn" target="_blank">View More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Values -->
+            <section class="section">
+                <div class="section-content">
+                    <h2>My Core Values</h2>
+                    <div class="project-card">
+                        <p>1. Problem-solving & Value-driven Thinking</p>
+                    </div>
+                    <p></p>
+                    <div class="project-card">
+                        <p>2. Lifelong Learning & Knowledge Sharing</p>
+                    </div>
+                    <p></p>
+                    <div class="project-card">
+                        <p>3. Teamwork & Collaboration</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills -->
+            <section class="section">
+                <div class="section-content">
+                    <h2>Skills</h2>
+                    <p>Here are the tools I use regularly:</p>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <img src="figma.jpg" alt="figma" class="skill-icon">
+                            <span class="skill-name">Figma</span>
+                            <span class="skill-name">Prototyping</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="trello.jpg" alt="trello" class="skill-icon">
+                            <span class="skill-name">Trello</span>
+                            <span class="skill-name">Task Tracking</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="notion.jpg" alt="notion" class="skill-icon">
+                            <span class="skill-name">Notion</span>
+                            <span class="skill-name">Project Management</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="miro.jpg" alt="miro" class="skill-icon">
+                            <span class="skill-name">Miro</span>
+                            <span class="skill-name">Scrum Tool</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Tools -->
+            <section class="section">
+                <div class="section-content">
+                    <h2>AI Tools I Work With</h2>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <img src="claude.jpg" alt="claude" class="skill-icon">
+                            <span class="skill-name">Claude</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="chatgpt.jpg" alt="chatgpt" class="skill-icon">
+                            <span class="skill-name">ChatGPT</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="gemini.png" alt="gemini" class="skill-icon">
+                            <span class="skill-name">Gemini</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="cursor.jpg" alt="cursor" class="skill-icon">
+                            <span class="skill-name">Cursor</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning -->
+            <section class="section">
+                <div class="section-content">
+                    <h2>Currently Learning</h2>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <img src="SQL.jpeg" alt="SQL" class="skill-icon">
+                            <span class="skill-name">SQL Database</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="htmlcss.png" alt="htmlcss" class="skill-icon">
+                            <span class="skill-name">HTML / CSS</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Language Proficiency -->
+            <section class="section">
+                <div class="section-content">
+                    <h2>Languages I Speak</h2>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <img src="flag.jpg" alt="flag" class="skill-icon">
+                            <span class="skill-name">Mandarin (Native)</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="usflag.png" alt="usflag" class="skill-icon">
+                            <span class="skill-name">English (Conversational)</span>
+                        </div>
+                        <div class="skill-item">
+                            <img src="de.png" alt="de flag" class="skill-icon">
+                            <span class="skill-name">German (Learning)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section class="section">
+                <div class="section-content">
+                    <h2>Contact</h2>
+                    <p>Feel free to reach out to me via:</p>
+                    <div class="contact-links">
+                        <a href="https://www.linkedin.com/in/anita-t-4430bb346" class="contact-link linkedin-link" target="_blank">
+                            <svg class="linkedin-icon" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                        <div class="contact-info">yamada003@duck.com</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        // 漢堡選單切換功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();  
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+            
+            // 點擊選單項目後關閉選單
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    
+                    // 頁面切換功能
+                    const pageId = this.getAttribute('data-page');
+                    if (pageId) {
+                        showPage(pageId);
+                    }
+                });
+            });
+        });
+
+        // 頁面切換功能
+        function showPage(pageId) {
+            // 隱藏所有頁面
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 顯示選中的頁面
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // 更新導航按鈕狀態
+            const navBtns = document.querySelectorAll('.nav-btn[data-page]');
+            navBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 設置當前按鈕為活躍狀態
+            const activeBtn = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            // 滾動到頂部
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>

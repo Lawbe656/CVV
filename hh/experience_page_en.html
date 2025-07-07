@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Experience</title>
+    <style>
+        /* 基本重置和全局樣式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        /* 導航列樣式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #fff;
+            border-bottom: 2px solid #000;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-btn {
+            background: none;
+            border: 2px solid #000;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            color: #000;
+        }
+
+        .nav-btn:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .nav-btn.active {
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* 漢堡圖示樣式 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: #000;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* 漢堡圖示動畫效果 */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* 主要內容區域 */
+        .main-content {
+            margin-top: 100px;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* 工作經歷頁面 */
+        .experience-page {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .experience-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 2px solid #000;
+            background-color: #fafafa;
+            scroll-margin-top: 90px;
+        }
+
+        .experience-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #000;
+            padding-bottom: 0.5rem;
+        }
+
+        .job-title {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .job-period {
+            font-style: italic;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        .experience-section ul {
+            margin-top: 1rem;
+            margin-left: 2rem;
+        }
+
+        .experience-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* 圖片相關樣式 */
+        .project-image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .project-image {
+            max-width: 100%;
+            max-height: 400px;
+            width: auto;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e0e0e0;
+        }
+
+        .section-image-container {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .section-image {
+            max-width: 100%;
+            max-height: 300px;
+            width: auto;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .image-caption {
+            font-size: 0.9em;
+            color: #666;
+            margin: 8px 0 0 0;
+            font-style: italic;
+            line-height: 1.4;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-container {
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 1rem;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 84px;
+                left: 0;
+                width: 100%;
+                background-color: #fff;
+                border-bottom: 2px solid #000;
+                flex-direction: column;
+                padding: 1rem 0;
+                transform: translateX(-100%);
+                transition: all 0.3s ease;
+                gap: 1rem;
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+            }
+
+            .nav-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+                text-align: center;
+                margin: 0 1rem;
+            }
+
+            .main-content {
+                margin-top: 140px;
+            }
+
+            .experience-page {
+                padding: 1rem;
+            }
+
+            .experience-section {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .experience-section h3 {
+                font-size: 1.5rem;
+            }
+
+            .project-image {
+                max-height: 250px;
+            }
+            
+            .section-image {
+                max-height: 200px;
+            }
+            
+            .image-caption {
+                font-size: 0.85em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                margin-top: 160px;
+            }
+
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .nav-menu {
+                top: 68px;
+            }
+
+            .main-content {
+                margin-top: 68px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航列 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- 漢堡圖示按鈕 -->
+            <button class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- 導航選單包裝 -->
+            <div class="nav-menu">
+                <a href="index_en.html" class="nav-btn">About Me</a>
+                <a href="experience_page_en.html" class="nav-btn active">Work Experience</a>
+                <a href="https://drive.google.com/file/d/1jwID5Ysly9Y7KOXQ-ui-8nFB9Y5faexQ/view?usp=sharing" class="nav-btn" target="_blank">Download Resume</a>
+                <a href="experience_page.html" class="nav-btn">中文</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要內容 -->
+    <main class="main-content">
+        <div class="experience-page">
+            <h1 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; border-bottom: 3px solid #000; padding-bottom: 1rem;">Work Experience</h1>
+
+            <!-- Project 1 -->
+            <div class="experience-section" id="project1">
+                <h3>Justhings.Co / Investment Database Project</h3>
+                <div class="job-title">Project Assistant → Project Manager</div>
+                <div class="job-period">Oct 2024 - Apr 2025</div>
+                <p>In this project, I led the planning and delivery of the investment database system, managing a cross-functional team and driving key module launches. Through effective communication and coordination, I improved team efficiency and received high praise from clients.</p>
+
+                <div class="project-insight">
+                    <h4>Project Background & Challenges:</h4>
+                    <li><b>Fragmented data and inefficient queries:</b> Data was spread across platforms, making it hard to consolidate and retrieve.</li>
+                    <li><b>Manual operations and high error risk:</b> Reports relied on manual work, leading to frequent mistakes and inefficiencies.</li>
+                    <li><b>Lack of traceability in budget processes:</b> Budget approvals lacked visibility, reducing decision-making efficiency.</li>
+                </div>
+
+                <div class="project-outcome">
+                    <h4>Outcomes & Impact:</h4>
+                    <ul>
+                        <li><b>Centralized data management:</b> Unified modules to create a high-efficiency investment database, improving search and consolidation.</li>
+                        <li><b>Reduced manual work and errors:</b> Automated and visualized reporting reduced human error and enhanced accuracy.</li>
+                        <li><b>Improved traceability and transparency:</b> Streamlined project and budget tracking for faster decision-making.</li>
+                        <li><b>Enhanced unit performance tracking:</b> Strengthened data-driven budget oversight across investment units.</li>
+                    </ul>
+                </div>
+
+                <h4>System Planning & Requirements:</h4>
+                <ul>
+                    <li>Conducted stakeholder interviews and transformed insights into clear system specifications.</li>
+                    <li>Defined core features including project categorization, real-time tracking, multi-contract monitoring and document uploads.</li>
+                    <li>Designed logic for performance calculation and automated report generation with export (Excel/PDF) and filtering.</li>
+                    <li>Collaborated on budget management module, including cost rules and visual dashboards.</li>
+                    <li>Helped define multi-tier user permissions for secure and scoped access.</li>
+                </ul>
+
+                <h4>Data & Process Optimization:</h4>
+                <ul>
+                    <li>Set up submission schedules and notification systems for task compliance.</li>
+                    <li>Participated in data flow design to ensure accurate internal data delivery.</li>
+                </ul>
+
+                <h4>Project Management & Collaboration:</h4>
+                <ul>
+                    <li>Acted as PM to coordinate between business and technical teams, ensuring on-time delivery.</li>
+                </ul>
+
+                <div class="section-image-container">
+                    <img src="Requirements Gathering Interview.jpg" alt="Requirements Interview" class="section-image">
+                    <p class="image-caption">Conducting stakeholder interviews</p>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="experience-section" id="project2">
+                <h3>Justhings.Co / ERP System Implementation Project</h3>
+                <div class="job-title">Project Assistant → Project Manager</div>
+                <div class="job-period">Jul 2024 - Jul 2025</div>
+                <p>In this cross-department ERP project, I managed the transition of inventory and payment processes into a standardized system, ensuring seamless launch and strengthening overall operational flows.</p>
+
+                <div class="project-insight">
+                    <h4>Project Background & Challenges:</h4>
+                    <p>Manual workflows for inventory and payments were inefficient; inventory tracking was absent and troubleshooting relied on time-consuming human investigation.</p>
+                </div>
+
+                <div class="project-outcome">
+                    <h4>Outcomes & Impact:</h4>
+                    <ul>
+                        <li><b>Automated and standardized processes:</b> Reduced human error and improved operational efficiency.</li>
+                        <li><b>Improved data accuracy and timeliness:</b> Unified platform enabled faster, more reliable decision-making.</li>
+                    </ul>
+                </div>
+
+                <h4>System Planning & Requirements:</h4>
+                <ul>
+                    <li>Led planning of inventory and payment flows, translating workflows into system logic and requirements.</li>
+                    <li>Identified pain points and proposed process optimization solutions.</li>
+                    <li>Contributed to data flow mapping across departments.</li>
+                </ul>
+
+                <h4>System Implementation & Quality Assurance:</h4>
+                <ul>
+                    <li>Participated in user acceptance testing to verify accuracy of logic and data in key modules.</li>
+                    <li>Provided user training and technical support to ensure system adoption.</li>
+                    <li>Resolved issues and suggested optimizations to enhance system performance.</li>
+                </ul>
+
+                <h4>Project Management & Collaboration:</h4>
+                <ul>
+                    <li>Acted as liaison between business and tech teams to drive progress and resolve communication gaps.</li>
+                </ul>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="experience-section" id="project3">
+                <h3>Justhings.Co / Traditional Skills Competition System</h3>
+                <div class="job-title">Project Manager</div>
+                <div class="job-period">Jan 2025 - May 2025</div>
+                <p>As Project Manager, I oversaw the system's development for a national competition. I defined key functions and validated critical data to ensure stable performance during high-traffic events.</p>
+
+                <div class="project-insight">
+                    <h4>Project Background & Challenges:</h4>
+                    <p>Prior to this system, registration and scoring relied heavily on paper-based operations, leading to inefficiency and high error risk. Real-time score release and certificate printing were manual and time-consuming.</p>
+                </div>
+
+                <div class="project-outcome">
+                    <h4>Outcomes & Impact:</h4>
+                    <ul>
+                        <li><b>Improved registration and data accuracy:</b> Online registration streamlined workflows and reduced errors.</li>
+                        <li><b>Faster scoring and results release:</b> Automated scoring and certificate generation minimized manual work.</li>
+                        <li><b>Better event experience:</b> Real-time access and clear UI enhanced satisfaction for participants and staff.</li>
+                    </ul>
+                </div>
+
+                <h4>System Development & Requirements:</h4>
+                <ul>
+                    <li>Built the system from scratch, including homepage, event info, announcements, registration, scoring and login modules.</li>
+                    <li>Communicated with stakeholders to define and clarify requirements for registration, scoring and certificate functions.</li>
+                </ul>
+
+                <h4>Testing & Data Verification:</h4>
+                <ul>
+                    <li>Led feature testing and verified accuracy of registration and score data across the system.</li>
+                    <li>Ensured accuracy of real-time results, finals scoring, certificate generation and user roles.</li>
+                </ul>
+
+                <h4>User Support & Documentation:</h4>
+                <ul>
+                    <li>Produced training materials and user guides to increase system adoption and ease of use.</li>
+                    <li>Provided on-site tech support during the event to ensure system stability.</li>
+                </ul>
+
+                <div class="section-image-container">
+                    <img src="bunun_teach.png" alt="System Training" class="section-image">
+                    <p class="image-caption">System Training Session</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // 漢堡選單切換功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();  
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+    
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                }
+            });
+    
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+            
+            // 點擊選單項目後關閉選單
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
